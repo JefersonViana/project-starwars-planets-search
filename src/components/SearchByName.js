@@ -1,7 +1,7 @@
 import { useContext, useState } from 'react';
 import { AppContext } from '../context/AppProvider';
 
-function SearchBar() {
+function SearchByName() {
   const { planets, setPlanets, fetchData } = useContext(AppContext);
   const [name, setName] = useState('');
 
@@ -28,4 +28,4 @@ function SearchBar() {
   );
 }
 
-export default SearchBar;
+export default SearchByName;

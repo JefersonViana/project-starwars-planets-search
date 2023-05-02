@@ -1,11 +1,13 @@
 import './App.css';
-import SearchBar from './components/SearchBar';
+import SearchByName from './components/SearchByName';
+import SearchBySelection from './components/SearchBySelection';
 import Table from './components/Table';
 
 function App() {
   return (
     <div>
-      <SearchBar />
+      <SearchByName />
+      <SearchBySelection />
       <Table />
     </div>
   );

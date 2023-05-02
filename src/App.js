@@ -1,9 +1,13 @@
 import './App.css';
+import SearchBar from './components/SearchBar';
 import Table from './components/Table';
 
 function App() {
   return (
-    <Table />
+    <div>
+      <SearchBar />
+      <Table />
+    </div>
   );
 }
 

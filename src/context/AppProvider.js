@@ -36,8 +36,8 @@ function AppProvider({ children }) {
   }, [fetchData]);
 
   const values = useMemo(() => ({
-    planets, setPlanets,
-  }), [planets, setPlanets]);
+    planets, setPlanets, fetchData,
+  }), [planets, setPlanets, fetchData]);
 
   return (
     <AppContext.Provider value={ values }>

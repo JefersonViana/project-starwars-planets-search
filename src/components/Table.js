@@ -35,11 +35,11 @@ function Table() {
             <th>{planet.surface}</th>
             <th>{planet.population}</th>
             <th>
-              {planet.films.map((film, index) => (
-                <ul key={ index }>
-                  <li>{film}</li>
-                </ul>
-              ))}
+              <ul>
+                {planet.films.map((film, index) => (
+                  <li key={ index }>{film}</li>
+                ))}
+              </ul>
             </th>
             <th>{planet.created}</th>
             <th>{planet.edited}</th>

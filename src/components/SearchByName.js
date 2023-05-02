@@ -6,7 +6,7 @@ function SearchByName() {
   const [name, setName] = useState('');
 
   const handleChange = ({ target }) => {
-    if (target.value === '') {
+    if (target.value === '' || target.value === ' ') {
       fetchData();
     }
     setName(target.value);

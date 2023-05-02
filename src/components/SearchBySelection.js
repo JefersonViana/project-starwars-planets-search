@@ -3,11 +3,15 @@ import { AppContext } from '../context/AppProvider';
 
 function SearchBySelection() {
   const { planets, setPlanets } = useContext(AppContext);
+  const [isValid, setIsValid] = useState(false);
   const [columnFilter, setColumnFilter] = useState('population');
   const [comparisonFilter, setComparisonFilter] = useState('maior que');
   const [numberFilter, setNumberFilter] = useState(0);
 
   const handleClick = () => {
+    if (columnFilter === 'population') {
+      setIsValid(true);
+    }
     const newArray = planets.filter((planet) => {
       switch (comparisonFilter) {
       case 'maior que':
@@ -30,7 +34,7 @@ function SearchBySelection() {
           value={ columnFilter }
           onChange={ (event) => setColumnFilter(event.target.value) }
         >
-          <option value="population">population</option>
+          {!isValid && <option value="population">population</option>}
           <option value="orbital">orbital_period</option>
           <option value="diameter">diameter</option>
           <option value="rotation">rotation_period</option>

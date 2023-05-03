@@ -2,16 +2,40 @@ import { useContext, useState } from 'react';
 import { AppContext } from '../context/AppProvider';
 
 function SearchBySelection() {
-  const { planets, setPlanets } = useContext(AppContext);
-  const [isValid, setIsValid] = useState(false);
+  const {
+    planets,
+    isValid,
+    setPlanets,
+    setFilters, setIsValid, setPreviousArray, previousArray } = useContext(AppContext);
   const [columnFilter, setColumnFilter] = useState('population');
   const [comparisonFilter, setComparisonFilter] = useState('maior que');
   const [numberFilter, setNumberFilter] = useState(0);
 
   const handleClick = () => {
-    if (columnFilter === 'population') {
-      setIsValid(true);
+    setIsValid({
+      ...isValid,
+      [columnFilter]: true,
+    });
+    switch (columnFilter) {
+    case 'population':
+      setColumnFilter('orbital_period');
+      break;
+    case 'orbital_period':
+      setColumnFilter('diameter');
+      break;
+    case 'diameter':
+      setColumnFilter('rotation_period');
+      break;
+    case 'rotation_period':
+      setColumnFilter('surface_water');
+      break;
+
+    default:
+      break;
     }
+    setFilters((prev) => (
+      [...prev, { columnFilter, comparisonFilter, numberFilter }]
+    ));
     const newArray = planets.filter((planet) => {
       switch (comparisonFilter) {
       case 'maior que':
@@ -22,6 +46,11 @@ function SearchBySelection() {
         return Number(planet[columnFilter]) === Number(numberFilter);
       }
     });
+    if (previousArray.length === 0) {
+      setPreviousArray((prev) => [...prev, planets]);
+    } else {
+      setPreviousArray((prev) => [...prev, newArray]);
+    }
     setPlanets(newArray);
   };
 
@@ -34,11 +63,15 @@ function SearchBySelection() {
           value={ columnFilter }
           onChange={ (event) => setColumnFilter(event.target.value) }
         >
-          {!isValid && <option value="population">population</option>}
-          <option value="orbital">orbital_period</option>
-          <option value="diameter">diameter</option>
-          <option value="rotation">rotation_period</option>
-          <option value="surface">surface_water</option>
+          {!isValid.population && <option value="population">population</option>}
+          {!isValid.orbital_period && (
+            <option value="orbital_period">orbital_period</option>
+          )}
+          {!isValid.diameter && <option value="diameter">diameter</option>}
+          {!isValid.rotation_period && (
+            <option value="rotation_period">rotation_period</option>
+          )}
+          {!isValid.surface_water && <option value="surface_water">surface_water</option>}
         </select>
       </label>
       <label>

@@ -26,13 +26,13 @@ function Table() {
         {planets.map((planet) => (
           <tr key={ planet.name }>
             <th>{planet.name}</th>
-            <th>{planet.rotation}</th>
-            <th>{planet.orbital}</th>
+            <th>{planet.rotation_period}</th>
+            <th>{planet.orbital_period}</th>
             <th>{planet.diameter}</th>
             <th>{planet.climate}</th>
             <th>{planet.gravity}</th>
             <th>{planet.terrain}</th>
-            <th>{planet.surface}</th>
+            <th>{planet.surface_water}</th>
             <th>{planet.population}</th>
             <th>
               <ul>

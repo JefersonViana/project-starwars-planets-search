@@ -6,7 +6,7 @@ function SearchBySelection() {
     planets,
     isValid,
     setPlanets,
-    setFilters, setIsValid, setPreviousArray, previousArray } = useContext(AppContext);
+    setFilters, setIsValid, setPreviousArray } = useContext(AppContext);
   const [columnFilter, setColumnFilter] = useState('population');
   const [comparisonFilter, setComparisonFilter] = useState('maior que');
   const [numberFilter, setNumberFilter] = useState(0);
@@ -46,11 +46,8 @@ function SearchBySelection() {
         return Number(planet[columnFilter]) === Number(numberFilter);
       }
     });
-    if (previousArray.length === 0) {
-      setPreviousArray((prev) => [...prev, planets]);
-    } else {
-      setPreviousArray((prev) => [...prev, newArray]);
-    }
+
+    setPreviousArray((prev) => [...prev, newArray]);
     setPlanets(newArray);
   };
 

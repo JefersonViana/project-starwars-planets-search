@@ -11,7 +11,7 @@ function SearchByName() {
     }
     setName(target.value);
     const filtro = planets.filter((planet) => planet.name
-      .toLowerCase().includes(target.value));
+      .toLowerCase().includes(target.value.toLowerCase()));
     setPlanets(filtro);
   };
 

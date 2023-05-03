@@ -20,6 +20,9 @@ function AppProvider({ children }) {
   const fetchData = useCallback(async () => {
     try {
       const response = await fetch('https://swapi.dev/api/planets');
+      // if (!response.ok) {
+      //   throw new Error();
+      // }
       const data = await response.json();
       const results = data.results.map((planet) => ({
         climate: planet.climate,

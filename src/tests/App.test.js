@@ -11,7 +11,7 @@ describe('Verifica se a aplicação tem os comportamentos esperados', () => {
       json: async () => (data)
     })
   })
-  test('Verifica se é renderizado os campos de filtro', () => {
+  test('Verifica se é renderizado os campos de filtro', async () => {
     render(<AppProvider><App /></AppProvider>);
     const inputTextEl = screen.getByRole('textbox');
     const selectColumn = screen.getByTestId('column-filter');
@@ -23,8 +23,7 @@ describe('Verifica se a aplicação tem os comportamentos esperados', () => {
     const btnEl = screen.getByRole('button', { name: /filtrar/i });
     const btnOrderEl = screen.getByRole('button', { name: /ordernar/i });
     const btnRemoveEl = screen.getByRole('button', { name: /remover filtros/i });
-    const titleTable = screen.getAllByRole('columnheader')
-
+    
     expect(inputTextEl).toBeInTheDocument();
     expect(selectColumn).toBeInTheDocument();
     expect(selectComparison).toBeInTheDocument();
@@ -35,7 +34,11 @@ describe('Verifica se a aplicação tem os comportamentos esperados', () => {
     expect(btnEl).toBeInTheDocument();
     expect(btnOrderEl).toBeInTheDocument();
     expect(btnRemoveEl).toBeInTheDocument();
-    expect(titleTable).toHaveLength(13);
+
+    await waitFor(() => {
+      const titleTable = screen.getAllByRole('row')
+      expect(titleTable).toHaveLength(11);
+    })
   });
   test('Verifica se é possível digitar no campos select', async () => {
     render(<AppProvider><App /></AppProvider>);
@@ -180,7 +183,7 @@ describe('Verifica se a aplicação tem os comportamentos esperados', () => {
     const PreviousRows = screen.getAllByRole('row');
     expect(PreviousRows).toHaveLength(4);
   })
-  test('Testando o button "excluir" filtro', async () => {
+  test('Testando a ordenação crescente e decrescente', async () => {
     render(<AppProvider><App /></AppProvider>);
 
     await waitFor(() => {
@@ -217,5 +220,38 @@ describe('Verifica se a aplicação tem os comportamentos esperados', () => {
     expect(planetsNames1[0]).toHaveTextContent('Coruscant');
     expect(planetsNames1[9]).toHaveTextContent('Dagobah');
   })
+  test('Testando se ao digitar no textbox um name e depois apagar se é feita uma nova atualização na tabela', async () => {
+    render(<AppProvider><App /></AppProvider>);
+
+    await waitFor(() => {
+      const rows =  screen.getAllByRole('row');
+      expect(rows).toHaveLength(11);
+    })
+    const filterName = screen.getByRole('textbox');
+
+    userEvent.type(filterName, 'tatoo');
+
+    const rows = screen.getAllByRole('row');
+    expect(rows).toHaveLength(2);
+
+    userEvent.clear(filterName);
+    await waitFor(() => {
+      const rows =  screen.getAllByRole('row');
+      expect(rows).toHaveLength(11);
+    })
+  })
 });
 
+describe('Testando a falha da API', () => {
+  test('', async () => {
+    jest.spyOn(global, 'fetch').mockRejectedValue(new Error('Error de requisição'));
+    console.log = jest.fn()
+    render(<AppProvider><App /></AppProvider>);
+
+    
+    expect(global.fetch).toHaveBeenCalled();
+    await waitFor(() => {
+      expect(console.log).toBeCalledWith('Error de requisição');
+    })
+  })
+})

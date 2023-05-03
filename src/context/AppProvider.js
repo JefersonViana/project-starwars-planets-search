@@ -42,7 +42,8 @@ function AppProvider({ children }) {
       setPlanets(results);
       setPreviousArray((prev) => [...prev, results]);
     } catch (error) {
-      throw new Error();
+      console.log(error.message);
+      // throw new Error();
     }
   }, []);
 
